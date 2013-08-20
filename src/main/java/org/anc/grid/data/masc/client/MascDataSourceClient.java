@@ -4,18 +4,30 @@ import java.rmi.RemoteException;
 
 import javax.xml.namespace.QName;
 import javax.xml.rpc.ServiceException;
+//import javax.xml.rpc.encoding.*;
 
-import org.anc.lapps.data.api.Data;
-import org.anc.lapps.data.api.DataSource;
+import org.lappsgrid.api.Data;
+import org.lappsgrid.api.DataSource;
+
 import org.anc.soap.client.AbstractSoapClient;
 import org.apache.axis.encoding.ser.BeanDeserializerFactory;
 import org.apache.axis.encoding.ser.BeanSerializerFactory;
+import org.apache.axis.encoding.DeserializerFactory;
+import org.apache.axis.encoding.SerializerFactory;
+import org.lappsgrid.core.DataFactory;
 
-public class MascDataSourceClient extends AbstractSoapClient implements DataSource
+import org.anc.grid.data.masc.client.serial.*;
+
+
+public class MascDataSourceClient extends AbstractDataSourceClient
 {
-   private static class Service {
-	      public static final String NAMESPACE = "http://localhost:8080/anc2go/services/MascXmlProcessorService";
-	      public static final String ENDPOINT = "http://localhost:8080/anc2go/services/MascXmlProcessorService";
+   public static class Service {
+      public static final String NAMESPACE = "http://picard:8080/service_manager/invoker/lapps:MASC_ALL";
+      public static final String ENDPOINT = "http://picard:8080/service_manager/invoker/lapps:MASC_ALL";
+//	      public static final String NAMESPACE = "http://localhost:8080/MascDataSource/services/MascDataSource";
+//	      public static final String ENDPOINT = "http://localhost:8080/MascDataSource/services/MascDataSource";
+//      public static final String NAMESPACE = "http://localhost:9090/services/MascDataSource";
+//      public static final String ENDPOINT = "http://localhost:9090/services/MascDataSource";
    };
 
 	// The service on grid.anc.org
@@ -28,63 +40,8 @@ public class MascDataSourceClient extends AbstractSoapClient implements DataSour
     
    public MascDataSourceClient(String user, String password) throws ServiceException
    {
-      super(Service.NAMESPACE);
-      super.setEndpoint(Service.ENDPOINT);
-      super.setCredentials(user, password);            
-      QName q = new QName ("uri:org.anc.lapps.data.api/", "Data"); 
-      BeanSerializerFactory serializer =   new BeanSerializerFactory(Data.class,q);   // step 2
-      BeanDeserializerFactory deserializer = new BeanDeserializerFactory(Data.class,q);  // step 3
-      call.registerTypeMapping(Data.class, q, serializer, deserializer); //step 4
+      super(Service.NAMESPACE, Service.ENDPOINT);
+      super.setCredentials(user, password);
    }
-
-   @Override
-   public Data list()
-   {
-      Data data = null;
-      try
-      {
-         data = (Data) super.invoke("list");
-      }
-      catch (RemoteException e)
-      {
-         
-      } 
-      return data; 
-   }
-
-   @Override
-   public Data get(String id)
-   {
-      String[] args = { id };
-      Data data = null;
-      try
-      {
-         data = (Data) super.invoke("get", args);
-      }
-      catch (RemoteException e)
-      {
-         e.printStackTrace();
-      } 
-      return data; 
-   }
-
-   @Override
-   public Data query(String query)
-   {
-      String[] args = { query };
-      Data data = null;
-      try
-      {
-         data = (Data) super.invoke("query", args);
-      }
-      catch (RemoteException e)
-      {
-         e.printStackTrace();
-      } 
-      return data; 
-   }
-   
-   
-
 }
 

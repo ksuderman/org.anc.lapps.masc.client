@@ -5,8 +5,10 @@ import java.util.*;
 
 import javax.xml.rpc.ServiceException;
 
-import org.anc.lapps.data.api.Data;
-import org.anc.lapps.data.api.DataSource;
+import org.lappsgrid.api.Data;
+import org.lappsgrid.api.DataSource;
+import org.lappsgrid.core.DataFactory;
+import org.lappsgrid.discriminator.Types;
 
 /**
  * A client class that wraps a DataSource service and provides
@@ -40,11 +42,11 @@ public class DocumentStreamReader
       Data queryResult = null; 
       if (query == null)
       {
-         queryResult = service.list();
+         queryResult = service.query(DataFactory.list());
       }
       else
       {
-         queryResult = service.query(query);
+         queryResult = service.query(DataFactory.query(query));
       }
       
       String payload = queryResult.getPayload();
@@ -80,11 +82,10 @@ public class DocumentStreamReader
          return null;
       }
       // Fetch a document from the DataSource service.
-      Data data = service.get(iterator.next());
-      String payload = data.getPayload();
+      Data data = service.query(DataFactory.get(iterator.next()));
       if (data.getDiscriminator() == Types.ERROR){
-         throw new IOException(payload);
+         throw new IOException(data.getPayload());
       }
-      return payload;
+      return data.getPayload();
    }
 }

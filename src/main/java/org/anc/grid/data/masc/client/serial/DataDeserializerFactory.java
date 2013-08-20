@@ -7,7 +7,7 @@ import java.util.List;
 import org.apache.axis.Constants;
 import org.apache.axis.encoding.DeserializerFactory;
 
-class DataDeserializerFactory implements DeserializerFactory
+public class DataDeserializerFactory implements DeserializerFactory
 {
    List<String> types = new ArrayList<String>();
    

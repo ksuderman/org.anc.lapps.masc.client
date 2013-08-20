@@ -14,11 +14,13 @@ import org.junit.Test;
 @Ignore
 public class DocumentStreamReaderTest
 {
-   
+   private static final String USER = "operator1";
+   private static final String PASS = "operator1";
+
    @Test
    public void testHasNext() throws ServiceException, IOException
    {
-      MascDataSourceClient service = new MascDataSourceClient("Tester", "tester");
+      MascDataSourceClient service = new MascDataSourceClient(USER, PASS);
       DocumentStreamReader reader = new DocumentStreamReader(service, "txt");
       assertTrue(reader.hasNext());
    }
@@ -26,7 +28,7 @@ public class DocumentStreamReaderTest
    @Test
    public void testNext() throws Exception
    {
-      MascDataSourceClient service = new MascDataSourceClient("Tester", "tester");
+      MascDataSourceClient service = new MascDataSourceClient(USER, PASS);
       DocumentStreamReader reader = new DocumentStreamReader(service, "txt");
       assertTrue(reader.hasNext());
       String output = reader.next();
@@ -37,7 +39,7 @@ public class DocumentStreamReaderTest
    @Test
    public void testCount() throws Exception
    {
-      MascDataSourceClient service = new MascDataSourceClient("Tester", "tester");
+      MascDataSourceClient service = new MascDataSourceClient(USER, PASS);
       DocumentStreamReader reader = new DocumentStreamReader(service, "txt");
       assertTrue(reader.hasNext());
       int count = 0;

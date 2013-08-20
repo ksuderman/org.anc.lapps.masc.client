@@ -8,7 +8,7 @@ import org.apache.axis.Constants;
 import org.apache.axis.encoding.Serializer;
 import org.apache.axis.encoding.SerializerFactory;
 
-class DataSerializerFactory implements SerializerFactory
+public class DataSerializerFactory implements SerializerFactory
 {
 
    List<String> types = new ArrayList<String>();

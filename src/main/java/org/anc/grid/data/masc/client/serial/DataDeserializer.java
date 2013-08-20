@@ -1,26 +1,83 @@
 package org.anc.grid.data.masc.client.serial;
 
-import java.util.Vector;
+import java.util.*;
 
 import javax.xml.namespace.QName;
 
 import org.apache.axis.Constants;
-import org.apache.axis.encoding.DeserializationContext;
-import org.apache.axis.encoding.Deserializer;
-import org.apache.axis.encoding.Target;
+import org.apache.axis.encoding.*;
 import org.apache.axis.message.SOAPHandler;
+import org.lappsgrid.api.Data;
+import org.lappsgrid.discriminator.Types;
+import org.slf4j.*;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 
-class DataDeserializer extends SOAPHandler implements Deserializer
+public class DataDeserializer extends DeserializerImpl
 {
+   private Logger logger = LoggerFactory.getLogger(DataSerializer.class);
+   public static final String DISCRIMINATOR = "discriminator";
+   public static final String PAYLOAD = "payload";
+   public static final QName QNAME = new QName("uri:org.lappsgrid.api/", "Data");
 
+   private Map<String,QName> typesIndex = new HashMap<String,QName>();
+
+   public DataDeserializer()
+   {
+      typesIndex.put(DISCRIMINATOR, Constants.XSD_LONG);
+      typesIndex.put(PAYLOAD, Constants.XSD_BASE64);
+      value = new Data(Types.ERROR, "Uninitialized");
+   }
+
+   public SOAPHandler onStartChild(String namespace, String localName,
+                                   String prefix, Attributes attributes,
+                                   DeserializationContext context)
+      throws SAXException
+   {
+      logger.info("onStartChild: {}", localName);
+      QName qName;
+      Target target = null;
+      if (localName.equals(DISCRIMINATOR))
+      {
+         qName = Constants.XSD_LONG;
+         target = new DiscriminatorTarget(value);
+      }
+      else if (localName.equals(PAYLOAD))
+      {
+         qName = Constants.XSD_STRING;
+         target = new PayloadTarget(value);
+      }
+      else
+      {
+         throw new SAXException("Invalid element in Data struct: " + localName);
+      }
+
+      Deserializer deserializer = context.getDeserializerForType(qName);
+      if (deserializer == null)
+      {
+         throw new SAXException("No deserializer for " + qName);
+      }
+
+//      try
+//      {
+//         deserializer.registerValueTarget(new FieldTarget(value, localName));
+//         deserializer.registerValueTarget(new MethodTarget(value, methodName));
+         deserializer.registerValueTarget(target);
+//      }
+//      catch (NoSuchMethodException e)
+//      {
+//         throw new SAXException("Unable to register value target.", e);
+//      }
+
+      return (SOAPHandler) deserializer;
+   }
    @Override
    public String getMechanismType()
    {
       return Constants.AXIS_SAX;
    }
 
+   /*
    @Override
    public void setValue(Object arg0, Object arg1) throws SAXException
    {
@@ -141,6 +198,46 @@ class DataDeserializer extends SOAPHandler implements Deserializer
    {
       System.out.println("DataDeserializer.valueComplete()");
    }
-  
+   */
 }
 
+abstract class DataTarget implements Target
+{
+   protected Data target;
+
+   public DataTarget(Object target)
+   {
+      this.target = (Data) target;
+   }
+}
+
+class DiscriminatorTarget extends DataTarget
+{
+   private Logger logger = LoggerFactory.getLogger(DiscriminatorTarget.class);
+   public DiscriminatorTarget(Object target)
+   {
+      super(target);
+   }
+
+   public void set(Object object)
+   {
+      logger.info("Setting discriminator: {}", object.toString());
+      target.setDiscriminator((Long)object);
+   }
+}
+
+class PayloadTarget extends DataTarget
+{
+   private Logger logger = LoggerFactory.getLogger(PayloadTarget.class);
+
+   public PayloadTarget(Object target)
+   {
+      super(target);
+   }
+
+   public void set(Object object)
+   {
+      logger.info("Setting payload: {}", object.toString());
+      target.setPayload(object.toString());
+   }
+}
