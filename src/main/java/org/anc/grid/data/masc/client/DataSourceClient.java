@@ -14,9 +14,19 @@ import java.rmi.RemoteException;
 /**
  * @author Keith Suderman
  */
-public abstract class AbstractDataSourceClient extends AbstractSoapClient implements DataSource
+public class DataSourceClient extends AbstractSoapClient implements DataSource
 {
-   public AbstractDataSourceClient(String namespace, String endpoint) throws ServiceException
+   public DataSourceClient(String endpoint, String username, String password) throws ServiceException
+   {
+      super(endpoint, endpoint);
+      super.setCredentials(username, password);
+      QName q = new QName ("uri:org.lappsgrid.api/", "Data");
+      BeanSerializerFactory serializer =   new BeanSerializerFactory(Data.class,q);   // step 2
+      BeanDeserializerFactory deserializer = new BeanDeserializerFactory(Data.class,q);  // step 3
+      call.registerTypeMapping(Data.class, q, serializer, deserializer); //step 4
+   }
+
+   public DataSourceClient(String namespace, String endpoint) throws ServiceException
    {
       super(namespace, endpoint);
       QName q = new QName ("uri:org.lappsgrid.api/", "Data");

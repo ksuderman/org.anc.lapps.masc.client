@@ -22,10 +22,11 @@ import static org.junit.Assert.*;
 /**
  * @author Keith Suderman
  */
+@Ignore
 public class MascHeaderSourceClientTest
 {
-   private static final String USER = "operator1";
-   private static final String PASS = "operator1";
+   private static final String USER = "suderman";
+   private static final String PASS = "lapplander";
    private MascHeaderSourceClient service;
 
    @Before

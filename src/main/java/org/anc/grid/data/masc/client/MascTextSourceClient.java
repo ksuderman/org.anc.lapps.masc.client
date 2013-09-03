@@ -5,11 +5,13 @@ import javax.xml.rpc.ServiceException;
 /**
  * @author Keith Suderman
  */
-public class MascTextSourceClient extends AbstractDataSourceClient
+public class MascTextSourceClient extends DataSourceClient
 {
    public static class Service {
-      public static final String NAMESPACE = "http://picard:8080/service_manager/invoker/lapps:MASC_TEXT";
-      public static final String ENDPOINT = "http://picard:8080/service_manager/invoker/lapps:MASC_TEXT";
+//      private static final String HOST = "http://picard:8080";
+      private static final String HOST = "http://grid.anc.org:8080";
+      public static final String NAMESPACE = HOST + "/service_manager/invoker/lapps:MASC_TEXT_SOURCE";
+      public static final String ENDPOINT = HOST + "/service_manager/invoker/lapps:MASC_TEXT_SOURCE";
    }
 
    public MascTextSourceClient(String user, String password) throws ServiceException

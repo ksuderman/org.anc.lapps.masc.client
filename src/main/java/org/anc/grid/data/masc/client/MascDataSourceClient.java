@@ -1,29 +1,16 @@
 package org.anc.grid.data.masc.client;
 
-import java.rmi.RemoteException;
-
-import javax.xml.namespace.QName;
 import javax.xml.rpc.ServiceException;
 //import javax.xml.rpc.encoding.*;
 
-import org.lappsgrid.api.Data;
-import org.lappsgrid.api.DataSource;
 
-import org.anc.soap.client.AbstractSoapClient;
-import org.apache.axis.encoding.ser.BeanDeserializerFactory;
-import org.apache.axis.encoding.ser.BeanSerializerFactory;
-import org.apache.axis.encoding.DeserializerFactory;
-import org.apache.axis.encoding.SerializerFactory;
-import org.lappsgrid.core.DataFactory;
-
-import org.anc.grid.data.masc.client.serial.*;
-
-
-public class MascDataSourceClient extends AbstractDataSourceClient
+public class MascDataSourceClient extends DataSourceClient
 {
    public static class Service {
-      public static final String NAMESPACE = "http://picard:8080/service_manager/invoker/lapps:MASC_ALL";
-      public static final String ENDPOINT = "http://picard:8080/service_manager/invoker/lapps:MASC_ALL";
+//      private static final String HOST = "http://picard:8080";
+      private static final String HOST = "http://grid.anc.org:8080";
+      public static final String NAMESPACE = HOST + "/service_manager/invoker/lapps:MASC_DATA_SOURCE";
+      public static final String ENDPOINT = HOST + "/service_manager/invoker/lapps:MASC_DATA_SOURCE";
 //	      public static final String NAMESPACE = "http://localhost:8080/MascDataSource/services/MascDataSource";
 //	      public static final String ENDPOINT = "http://localhost:8080/MascDataSource/services/MascDataSource";
 //      public static final String NAMESPACE = "http://localhost:9090/services/MascDataSource";

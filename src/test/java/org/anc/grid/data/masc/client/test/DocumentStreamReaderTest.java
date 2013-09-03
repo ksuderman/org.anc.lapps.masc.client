@@ -14,8 +14,8 @@ import org.junit.Test;
 @Ignore
 public class DocumentStreamReaderTest
 {
-   private static final String USER = "operator1";
-   private static final String PASS = "operator1";
+   private static final String USER = "suderman";
+   private static final String PASS = "lapplander";
 
    @Test
    public void testHasNext() throws ServiceException, IOException

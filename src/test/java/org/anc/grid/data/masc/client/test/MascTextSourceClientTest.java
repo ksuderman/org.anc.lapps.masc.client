@@ -17,8 +17,8 @@ import static org.junit.Assert.*;
  */
 public class MascTextSourceClientTest
 {
-   private static final String USER = "operator1";
-   private static final String PASS = "operator1";
+   private static final String USER = "suderman";
+   private static final String PASS = "lapplander";
    private MascTextSourceClient service;
 
    @Before
@@ -45,10 +45,14 @@ public class MascTextSourceClientTest
    public void testGet() throws InternalException
    {
       String[] index = service.list();
-      for (String key : index)
+      int limit = 1;
+      for (int i = 0; i < limit; ++i)
       {
+         String key = index[i];
+         System.out.println("Fetching " + key);
          Data data = service.get(key);
-         assertTrue(Types.TEXT != data.getDiscriminator());
+         assertTrue(Types.ERROR != data.getDiscriminator());
+         System.out.println(data.getPayload());
       }
    }
 }
