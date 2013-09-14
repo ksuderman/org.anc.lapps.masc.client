@@ -3,7 +3,9 @@ package org.anc.grid.data.masc.client;
 import org.anc.soap.client.AbstractSoapClient;
 import org.apache.axis.encoding.ser.BeanDeserializerFactory;
 import org.apache.axis.encoding.ser.BeanSerializerFactory;
-import org.lappsgrid.api.*;
+import org.lappsgrid.api.Data;
+import org.lappsgrid.api.DataSource;
+import org.lappsgrid.api.InternalException;
 import org.lappsgrid.core.DataFactory;
 import org.lappsgrid.discriminator.Types;
 
@@ -12,6 +14,8 @@ import javax.xml.rpc.ServiceException;
 import java.rmi.RemoteException;
 
 /**
+ * Client class for objects that want to access LAPPS DataSources.
+ *
  * @author Keith Suderman
  */
 public class DataSourceClient extends AbstractSoapClient implements DataSource
