@@ -36,9 +36,6 @@ public class DataSourceClient extends AbstractSoapClient implements DataSource
       QName q = new QName ("uri:org.lappsgrid.api/", "Data");
       BeanSerializerFactory serializer =   new BeanSerializerFactory(Data.class,q);   // step 2
       BeanDeserializerFactory deserializer = new BeanDeserializerFactory(Data.class,q);  // step 3
-//      SerializerFactory serializer = new DataSerializerFactory();
-//      DeserializerFactory deserializer = new DataDeserializerFactory();
-
       call.registerTypeMapping(Data.class, q, serializer, deserializer); //step 4
    }
 
