@@ -20,8 +20,8 @@ public class DataSourceTest
    static final long ERROR = DiscriminatorRegistry.get("error");
 
    protected MascDataSourceClient service;
-   private static final String USER = "suderman";
-   private static final String PASS = "lapplander";
+   private static final String USER = "operator";
+   private static final String PASS = "operator";
 
    @After
    public void teardown()
