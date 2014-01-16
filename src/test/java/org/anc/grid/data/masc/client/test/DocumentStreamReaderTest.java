@@ -6,6 +6,7 @@ import java.io.IOException;
 
 import javax.xml.rpc.ServiceException;
 
+import org.anc.grid.data.masc.client.Credentials;
 import org.anc.grid.data.masc.client.DocumentStreamReader;
 import org.anc.grid.data.masc.client.MascDataSourceClient;
 import org.junit.Ignore;
@@ -14,8 +15,8 @@ import org.junit.Test;
 @Ignore
 public class DocumentStreamReaderTest
 {
-   private static final String USER = "suderman";
-   private static final String PASS = "lapplander";
+   private static final String USER = Credentials.USERNAME;
+   private static final String PASS = Credentials.PASSWORD;
 
    @Test
    public void testHasNext() throws ServiceException, IOException

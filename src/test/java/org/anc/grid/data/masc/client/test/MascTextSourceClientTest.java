@@ -17,8 +17,8 @@ import static org.junit.Assert.*;
  */
 public class MascTextSourceClientTest
 {
-   private static final String USER = "operator";
-   private static final String PASS = "operator";
+   private static final String USER = Credentials.USERNAME;
+   private static final String PASS = Credentials.PASSWORD;
    private MascTextSourceClient service;
 
    @Before

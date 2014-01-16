@@ -25,8 +25,8 @@ import static org.junit.Assert.*;
 @Ignore
 public class MascHeaderSourceClientTest
 {
-   private static final String USER = "operator";
-   private static final String PASS = "operator";
+   private static final String USER = Credentials.USERNAME;
+   private static final String PASS = Credentials.PASSWORD;
    private MascHeaderSourceClient service;
 
    @Before

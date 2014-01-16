@@ -50,6 +50,7 @@ public class DataSourceClient extends AbstractSoapClient implements DataSource
       }
       catch (RemoteException e)
       {
+         e.printStackTrace();
          result = DataFactory.error(e.getMessage());
       }
       return result;

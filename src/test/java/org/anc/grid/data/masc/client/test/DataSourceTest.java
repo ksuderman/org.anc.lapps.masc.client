@@ -1,5 +1,6 @@
 package org.anc.grid.data.masc.client.test;
 
+import org.anc.grid.data.masc.client.Credentials;
 import org.anc.grid.data.masc.client.MascDataSourceClient;
 import org.junit.After;
 import org.junit.Before;
@@ -20,8 +21,6 @@ public class DataSourceTest
    static final long ERROR = DiscriminatorRegistry.get("error");
 
    protected MascDataSourceClient service;
-   private static final String USER = "operator";
-   private static final String PASS = "operator";
 
    @After
    public void teardown()
@@ -33,7 +32,7 @@ public class DataSourceTest
    public void testUnknownUser() throws ServiceException
    {
       System.out.println("DataSourceTest.testUnknownUser");
-      service = new MascDataSourceClient("unknown", PASS);
+      service = new MascDataSourceClient("unknown", Credentials.PASSWORD);
       try
       {
          String[] parts = service.list();
@@ -49,8 +48,8 @@ public class DataSourceTest
    @Test
    public void testInvalidPassword() throws ServiceException
    {
-      System.out.println("DataSourceTest.testUnknownUser");
-      service = new MascDataSourceClient(USER, "invalid");
+      System.out.println("DataSourceTest.testInvalidPassword");
+      service = new MascDataSourceClient(Credentials.USERNAME, "invalid");
       try
       {
          String[] list = service.list();
@@ -66,23 +65,25 @@ public class DataSourceTest
    public void testList() throws InternalException, ServiceException
    {
       System.out.println("DataSourceTest.testList");
-      service = new MascDataSourceClient(USER, PASS);
+      service = new MascDataSourceClient(Credentials.USERNAME, Credentials.PASSWORD);
       String[] list = service.list();
       assertTrue("Null result returned.", list != null);
       assertTrue("Empty list returned.", list.length > 0);
+      System.out.println("Test passed.");
    }
 
    @Test
    public void testGet() throws ServiceException
    {
       System.out.println("DataSourceTest.testGet");
-      service = new MascDataSourceClient(USER, PASS);
+      service = new MascDataSourceClient(Credentials.USERNAME, Credentials.PASSWORD);
       Data result = service.get("MASC3-0286-ne");
       System.out.println("Data type returned: " + DiscriminatorRegistry.get(result.getDiscriminator()));
       assertTrue("Null result", result != null);
       assertTrue("ERROR: " + result.getPayload(), result.getDiscriminator() != ERROR);
       String payload = result.getPayload();
       assertTrue("Null payload", payload != null);
+      System.out.println("Test passed.");
    }
 
    @Ignore // Not a unit test.
